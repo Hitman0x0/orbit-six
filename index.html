@@ -1,0 +1,703 @@
+<title>Five Years Around the Sun</title>
+<meta name="description" content="A keepsake page for a fifth anniversary — five orbits, one star." />
+<style>
+  :root {
+    color-scheme: light dark;
+
+    --bg:        #0b0e23;
+    --bg-elev:   #141834;
+    --ink:       #f4f2ea;
+    --ink-soft:  #a7adcf;
+    --line:      rgba(232, 197, 120, 0.20);
+    --line-soft: rgba(232, 197, 120, 0.10);
+    --gold:      #e8c06a;
+    --gold-hi:   #f3d28a;
+    --rose:      #e0919f;
+    --star:      #fbf8ef;
+
+    --serif: "Newsreader", Georgia, "Times New Roman", serif;
+    --body:  "Spectral", Georgia, serif;
+    --mono:  "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+    --measure: 62ch;
+    --step: clamp(1.1rem, 0.9rem + 0.9vw, 1.25rem);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:        #0b0e23;
+      --bg-elev:   #141834;
+      --ink:       #f4f2ea;
+      --ink-soft:  #a7adcf;
+      --line:      rgba(232, 197, 120, 0.20);
+      --line-soft: rgba(232, 197, 120, 0.10);
+      --gold:      #e8c06a;
+      --gold-hi:   #f3d28a;
+      --rose:      #e0919f;
+      --star:      #fbf8ef;
+    }
+  }
+
+  :root[data-theme="light"] {
+    --bg:        #f3efe3;
+    --bg-elev:   #faf8f0;
+    --ink:       #23244a;
+    --ink-soft:  #5c5f86;
+    --line:      rgba(35, 36, 74, 0.18);
+    --line-soft: rgba(35, 36, 74, 0.09);
+    --gold:      #a9781f;
+    --gold-hi:   #c39a45;
+    --rose:      #b0475b;
+    --star:      #3a3c66;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg:        #f3efe3;
+      --bg-elev:   #faf8f0;
+      --ink:       #23244a;
+      --ink-soft:  #5c5f86;
+      --line:      rgba(35, 36, 74, 0.18);
+      --line-soft: rgba(35, 36, 74, 0.09);
+      --gold:      #a9781f;
+      --gold-hi:   #c39a45;
+      --rose:      #b0475b;
+      --star:      #3a3c66;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: var(--step);
+    line-height: 1.7;
+    letter-spacing: 0.005em;
+    overflow-x: hidden;
+  }
+
+  #sky {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 78ch;
+    margin: 0 auto;
+    padding: clamp(2rem, 5vw, 4.5rem) clamp(1.4rem, 5vw, 3rem) 5rem;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 1.4rem;
+  }
+
+  /* ---------- hero ---------- */
+
+  .hero {
+    text-align: center;
+    padding: clamp(1rem, 3vw, 2.5rem) 0 clamp(2rem, 6vw, 4rem);
+  }
+
+  .system {
+    --size: min(74vw, 30rem);
+    position: relative;
+    width: var(--size);
+    height: var(--size);
+    margin: 1.5rem auto 2.75rem;
+  }
+
+  .orbit {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    animation: spin var(--dur) linear infinite;
+  }
+  .orbit-1 { width: 20%;  height: 20%;  --dur: 14s; }
+  .orbit-2 { width: 40%;  height: 40%;  --dur: 24s; }
+  .orbit-3 { width: 60%;  height: 60%;  --dur: 38s; }
+  .orbit-4 { width: 80%;  height: 80%;  --dur: 54s; }
+  .orbit-5 { width: 100%; height: 100%; --dur: 74s; border-color: var(--line); border-style: dashed; }
+
+  .planet {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    width: 9px;
+    height: 9px;
+    margin-left: -4.5px;
+    border-radius: 50%;
+    background: var(--gold-hi);
+    box-shadow: 0 0 10px 1px var(--gold);
+  }
+  .orbit-5 .planet {
+    width: 15px;
+    height: 15px;
+    margin-left: -7.5px;
+    top: -7.5px;
+    background: none;
+    box-shadow: none;
+    color: var(--rose);
+  }
+  .orbit-5 .planet::after {
+    content: "\2665";
+    position: absolute;
+    inset: 0;
+    font-size: 15px;
+    line-height: 15px;
+    text-align: center;
+    filter: drop-shadow(0 0 8px var(--rose));
+  }
+
+  .sun {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 12%;
+    height: 12%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 38%, var(--gold-hi), var(--gold) 55%, transparent 78%);
+    box-shadow: 0 0 40px 6px rgba(232, 197, 120, 0.35);
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(2.6rem, 1.6rem + 4.6vw, 4.75rem);
+    line-height: 1.04;
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+    margin: 0 0 1rem;
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--gold);
+  }
+
+  .hero p {
+    max-width: 46ch;
+    margin: 0 auto;
+    color: var(--ink-soft);
+    font-size: 1.08rem;
+  }
+  .hero p .swap { color: var(--rose); font-style: italic; }
+
+  /* ---------- numbers ---------- */
+
+  .ledger {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(0.75rem, 3vw, 1.5rem);
+    margin: clamp(3rem, 8vw, 5.5rem) 0;
+    padding: 2rem 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    text-align: center;
+  }
+  .ledger div { display: flex; flex-direction: column; gap: 0.4rem; }
+  .ledger .n {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(1.7rem, 1rem + 2.6vw, 2.9rem);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    color: var(--gold);
+  }
+  .ledger .k {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 46rem) {
+    .ledger { grid-template-columns: repeat(2, 1fr); gap: 1.8rem 1rem; }
+  }
+  @media (max-width: 30rem) {
+    .ledger { grid-template-columns: 1fr; gap: 1.4rem; }
+    .ledger div { flex-direction: row; align-items: baseline; justify-content: center; gap: 0.7rem; }
+  }
+
+  /* ---------- section ---------- */
+
+  section h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2rem);
+    letter-spacing: -0.01em;
+    margin: 0 0 0.4rem;
+  }
+  .lead {
+    max-width: var(--measure);
+    color: var(--ink-soft);
+    margin: 0 0 2.75rem;
+  }
+
+  /* ---------- orbits timeline ---------- */
+
+  .orbits {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 1.5rem;
+    border-left: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+  .orbits li {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    gap: clamp(1rem, 4vw, 2rem);
+    position: relative;
+  }
+  .orbits li::before {
+    content: "";
+    position: absolute;
+    left: calc(-1.5rem - 4.5px);
+    top: 0.5rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 0 4px var(--bg);
+  }
+  .orbits li.landmark::before {
+    background: var(--rose);
+    box-shadow: 0 0 0 4px var(--bg), 0 0 14px 3px var(--rose);
+  }
+  .orbits li.landmark h3 { color: var(--rose); }
+  .orbits li.landmark .year { color: var(--rose); }
+
+  .coords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.1rem;
+    margin-top: 0.85rem;
+    padding-top: 0.7rem;
+    border-top: 1px dashed var(--line);
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .coords b { font-weight: 500; color: var(--rose); }
+  .orbits li:not(.landmark) .coords b { color: var(--gold); }
+
+  .orbits .year {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    padding-top: 0.15rem;
+  }
+  .orbits .span {
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+  }
+  .orbits h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 1.22rem;
+    margin: 0 0 0.35rem;
+  }
+  .orbits p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.98rem;
+  }
+  .fill { color: var(--rose); font-style: italic; }
+
+  @media (max-width: 34rem) {
+    .orbits li { grid-template-columns: 1fr; gap: 0.35rem; }
+    .orbits .year { flex-direction: row; align-items: baseline; gap: 0.6rem; }
+  }
+
+  /* ---------- flight log ---------- */
+
+  .logwrap { margin-top: clamp(3.5rem, 9vw, 5.5rem); }
+
+  .log {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .log li {
+    display: grid;
+    grid-template-columns: 2.4rem 6.4rem 1fr 4.8rem;
+    gap: 0.4rem 1.1rem;
+    align-items: baseline;
+    padding: 1rem 0.15rem;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .log li.head {
+    padding: 0.5rem 0.15rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--line);
+  }
+  .log .no { color: var(--gold); letter-spacing: 0.12em; }
+  .log .date { letter-spacing: 0.05em; color: var(--ink); }
+  .log .wait { text-align: right; color: var(--gold); letter-spacing: 0.04em; }
+  .log li.head .wait,
+  .log li.head .date { color: var(--ink-soft); }
+  .log .what {
+    font-family: var(--body);
+    font-size: 0.97rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .log .what strong {
+    display: block;
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--ink);
+    margin-bottom: 0.15rem;
+  }
+  .log li.pending .no,
+  .log li.pending .date { color: var(--rose); }
+  .log li.pending .what strong { color: var(--rose); font-style: italic; }
+
+  @media (max-width: 34rem) {
+    .log li { grid-template-columns: 2.4rem 1fr auto; }
+    .log .what { grid-column: 2 / -1; }
+    .log li.head { display: none; }
+  }
+
+  /* ---------- letter ---------- */
+
+  .letter {
+    margin: clamp(3.5rem, 9vw, 6rem) 0 0;
+    padding: clamp(1.8rem, 5vw, 3rem);
+    background: var(--bg-elev);
+    border: 1px solid var(--line-soft);
+    border-radius: 2px;
+  }
+  .letter p {
+    max-width: var(--measure);
+    margin: 0 0 1.1rem;
+  }
+  .letter p:last-child { margin-bottom: 0; }
+  .letter .sign {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--gold);
+  }
+
+  /* ---------- footer ---------- */
+
+  footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+  footer span { color: var(--rose); }
+
+  a { color: var(--gold); text-underline-offset: 3px; }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orbit, .sun { animation: none; }
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 40px 6px rgba(232, 197, 120, 0.30); }
+    50%      { box-shadow: 0 0 55px 12px rgba(232, 197, 120, 0.48); }
+  }
+</style>
+
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<main class="page">
+  <header class="hero">
+    <p class="eyebrow">09 &middot; 09 &middot; 2021 &nbsp;&mdash;&nbsp; 09 &middot; 09 &middot; 2026</p>
+    <h1>Five years<br />around the <em>sun</em></h1>
+
+    <div class="system" aria-hidden="true">
+      <div class="orbit orbit-1"><span class="planet"></span></div>
+      <div class="orbit orbit-2"><span class="planet"></span></div>
+      <div class="orbit orbit-3"><span class="planet"></span></div>
+      <div class="orbit orbit-4"><span class="planet"></span></div>
+      <div class="orbit orbit-5"><span class="planet"></span></div>
+      <div class="sun"></div>
+    </div>
+
+    <p>For <span class="swap">Joya</span> &mdash; five years, one orbit, and 925 days
+      before I got to stand in the same room as you. Same star. Same planet.
+      Just a long way around it.</p>
+  </header>
+
+  <div class="ledger">
+    <div>
+      <span class="n">1,826</span>
+      <span class="k">days since 09.09.21</span>
+    </div>
+    <div>
+      <span class="n">925</span>
+      <span class="k">days until first meet</span>
+    </div>
+    <div>
+      <span class="n">4</span>
+      <span class="k">trips to Indonesia</span>
+    </div>
+    <div>
+      <span class="n">4.7bn</span>
+      <span class="k">km, one orbit</span>
+    </div>
+  </div>
+
+  <section>
+    <h2>The five orbits</h2>
+    <p class="lead">One lap of the sun for every year, from 9 September 2021 to today.
+      The first two were only screens. Then Jakarta, and everything after it.</p>
+
+    <ol class="orbits">
+      <li>
+        <span class="year">Orbit I<span class="span">2021&ndash;22</span></span>
+        <div>
+          <h3>The year of the screen</h3>
+          <p>Where it began: 9 September 2021. Two time zones and one conversation
+            that never really ended. Learning an entire person through a screen,
+            which everyone says is impossible, and isn't.</p>
+        </div>
+      </li>
+      <li>
+        <span class="year">Orbit II<span class="span">2022&ndash;23</span></span>
+        <div>
+          <h3>The year we learned to wait</h3>
+          <p>Good morning arriving in your evening. Calls that outlasted the battery.
+            Somewhere in here the distance stopped being a problem to solve and
+            became a thing we were simply good at.</p>
+        </div>
+      </li>
+      <li class="landmark">
+        <span class="year">Orbit III<span class="span">2023&ndash;24</span></span>
+        <div>
+          <h3>Jakarta</h3>
+          <p>22 March 2024. Nine hundred and twenty-five days of waiting, then an
+            arrivals hall, and then no distance at all. Everything before it was a
+            promise. This was the proof.</p>
+          <p class="coords">
+            <span><b>Jakarta</b> &middot; 6.2088&deg; S, 106.8456&deg; E &middot; WIB, UTC+7</span>
+            <span>22.03.2024 &middot; trip one &middot; <b>distance: 0</b></span>
+          </p>
+        </div>
+      </li>
+      <li class="landmark">
+        <span class="year">Orbit IV<span class="span">2024&ndash;25</span></span>
+        <div>
+          <h3>The year I met your family</h3>
+          <p>2 January 2025, and a second flight. Mama, Dad, Cece &mdash; and the very
+            particular terror of wanting badly to be liked. Being let into the room you
+            grew up in is its own kind of arrival: you stop being someone she talks to
+            and become someone they know.</p>
+          <p class="coords">
+            <span>02.01.2025 &middot; trip two</span>
+            <span><b>Mama, Dad, Cece</b></span>
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="year">Orbit V<span class="span">2025&ndash;26</span></span>
+        <div>
+          <h3>Today &mdash; and the lap where we close it</h3>
+          <p>The fullest lap yet: Cece in November, then Bandung in June, kept quiet
+            from everyone. Five orbits finished from opposite points of the same
+            spinning planet, and four flights that took the distance to nothing.
+            Orbit six is the one where the map stops mattering.</p>
+          <p class="coords">
+            <span><b>Bandung</b> &middot; 6.9175&deg; S, 107.6191&deg; E &middot; 768 m up</span>
+            <span>13.06.2026 &middot; trip four &middot; <b>88 days ago</b></span>
+          </p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="logwrap">
+    <h2>Four flights</h2>
+    <p class="lead">Four times the distance has actually gone to zero. The last column
+      is how long I waited for each one &mdash; it has never been as long since.</p>
+
+    <ol class="log">
+      <li class="head">
+        <span class="no"></span>
+        <span class="date">Date</span>
+        <span class="what">Trip</span>
+        <span class="wait">Wait</span>
+      </li>
+      <li>
+        <span class="no">01</span>
+        <span class="date">22.03.2024</span>
+        <span class="what">
+          <strong>Jakarta</strong>
+          The first one. Everything before it was a promise.
+        </span>
+        <span class="wait">925 d</span>
+      </li>
+      <li>
+        <span class="no">02</span>
+        <span class="date">02.01.2025</span>
+        <span class="what">
+          <strong>Mama, Dad and Cece</strong>
+          A new year that started in the right house, with your family
+          deciding what they made of me.
+        </span>
+        <span class="wait">286 d</span>
+      </li>
+      <li>
+        <span class="no">03</span>
+        <span class="date">06.11.2025</span>
+        <span class="what">
+          <strong>Just you &mdash; and Cece</strong>
+          No occasion attached to this one. Only you, and the days it took for
+          Cece to stop being your sister and start being mine too.
+        </span>
+        <span class="wait">308 d</span>
+      </li>
+      <li>
+        <span class="no">04</span>
+        <span class="date">13.06.2026</span>
+        <span class="what">
+          <strong>Bandung, in secret</strong>
+          Up into the highlands, told to nobody. They call Bandung
+          <em>Kota Kembang</em> &mdash; the city of flowers. Given what you
+          call me, I'm choosing to take that personally.
+        </span>
+        <span class="wait">219 d</span>
+      </li>
+    </ol>
+  </section>
+
+  <div class="letter">
+    <p>Joya &mdash;</p>
+    <p>On the ninth of September, 2021, I had no idea that a conversation with someone
+      an ocean away was going to become the fixed point everything else turned around.
+      I'm glad I didn't know. I got to find out slowly, one orbit at a time, which is
+      the best way to be told good news.</p>
+    <p>Five years measured in hours of difference and kilometres I couldn't shorten.
+      You were worth every one of them &mdash; the time zones, the airports, the bad
+      connections, the waiting. You always were.</p>
+    <p>And then Jakarta, 22 March 2024, when the number finally went to zero.
+      I would do all 925 days again for that one. Then January, when you walked me
+      into your family and they let me stay. Then November, and a whole trip with
+      nothing in it but you and Cece. Then Bandung, which we told absolutely nobody
+      about. Four flights, and every one of them worth the airport.</p>
+    <p>Here's to orbit six, and the lap where we stop counting kilometres.</p>
+    <p class="sign">&mdash; Roze, 9 September 2026</p>
+  </div>
+
+  <footer>
+    Five orbits complete &middot; 09.09.2026 &middot; <span>&hearts;</span>
+  </footer>
+</main>
+
+<script>
+  (function () {
+    var canvas = document.getElementById("sky");
+    var ctx = canvas.getContext("2d");
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var stars = [];
+    var w, h, raf;
+
+    function color() {
+      return getComputedStyle(document.documentElement).getPropertyValue("--star").trim() || "#fbf8ef";
+    }
+
+    function build() {
+      w = canvas.width = Math.floor(window.innerWidth * devicePixelRatio);
+      h = canvas.height = Math.floor(window.innerHeight * devicePixelRatio);
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      var count = Math.min(190, Math.round((window.innerWidth * window.innerHeight) / 9000));
+      stars = [];
+      for (var i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: (Math.random() * 1.3 + 0.3) * devicePixelRatio,
+          base: Math.random() * 0.5 + 0.2,
+          amp: Math.random() * 0.4,
+          phase: Math.random() * Math.PI * 2,
+          speed: Math.random() * 0.9 + 0.3
+        });
+      }
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, w, h);
+      var c = color();
+      for (var i = 0; i < stars.length; i++) {
+        var s = stars[i];
+        var a = reduce ? s.base : s.base + s.amp * Math.sin(s.phase + t * 0.001 * s.speed);
+        ctx.globalAlpha = Math.max(0, Math.min(1, a));
+        ctx.fillStyle = c;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (!reduce) raf = requestAnimationFrame(draw);
+    }
+
+    build();
+    draw(0);
+
+    var resizeTimer;
+    window.addEventListener("resize", function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        cancelAnimationFrame(raf);
+        build();
+        draw(0);
+      }, 200);
+    });
+  })();
+</script>
